@@ -85,13 +85,13 @@ python
 Apply
 from safetensors import safe_open
 ```python
-with safe_open("example.safetensors", framework="pt", device="cpu") as f:
-long_tensor = f.get_tensor("long_tensor")
-float_tensor = f.get_tensor("float_tensor")
+
 
 from safetensors.torch import save_file
 import torch
-
+with safe_open("example.safetensors", framework="pt", device="cpu") as f:
+    long_tensor = f.get_tensor("long_tensor")
+float_tensor = f.get_tensor("float_tensor")
 long_tensor = torch.tensor([1, 2, 3, 4]).reshape(2, 2)
 float_tensor = torch.tensor([1.0, 2.0, 3.0, 4.0]).reshape(2, 2)
 
