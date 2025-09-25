@@ -1,6 +1,6 @@
-package torch.safetensors.decoder
+package torch.utils.safetensors.decoder
 
-import torch.safetensors.instance.SafeTensors
+import torch.utils.safetensors.instance.SafeTensors
 
 /** SafeTensors加载器
   */

@@ -1,26 +1,18 @@
-package torch.safetensors
+package torch.utils.safetensors
 
-import java.io.BufferedInputStream
-import java.io.DataInputStream
-import java.io.File
-import java.io.FileInputStream
-import java.io.IOException
-import java.nio.ByteBuffer
-import java.nio.ByteOrder
-import java.nio.FloatBuffer
-import java.nio.LongBuffer
+import java.io.{
+  BufferedInputStream, DataInputStream, File,
+  FileNotFoundException, FileInputStream, IOException
+}
+import java.nio.{ByteBuffer, ByteOrder, FloatBuffer, LongBuffer}
 import java.nio.charset.StandardCharsets
-import java.util
-import java.util.Collections
-
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
-import scala.jdk.CollectionConverters.*
 import scala.util.control.Breaks.break
 import scala.util.control.Breaks.breakable
-
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
+
 object SafetensorsViewer {
   object HeaderValue {
     def load(jsonNode: JsonNode) = {

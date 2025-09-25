@@ -19,7 +19,7 @@ import scala.collection.Seq
 ////    csrCacheDirectory := file("D:\\coursier"),
 //  )
 
-ThisBuild / tlBaseVersion := "0.0" // your current series x.y
+ThisBuild / tlBaseVersion := "0.1.3" // your current series x.y
 //ThisBuild / CoursierCache := file("D:\\coursier")
 ThisBuild / organization := "io.github.mullerhai" //"dev.storch"
 ThisBuild / organizationName := "storch.dev"
@@ -29,7 +29,7 @@ ThisBuild / developers := List(
   // your GitHub handle and name
   tlGitHubDev("mullerhai", "mullerhai")
 )
-ThisBuild / version := "0.1.1"
+ThisBuild / version := "0.1.3"
 
 ThisBuild / scalaVersion := "3.6.4"
 ThisBuild / tlSonatypeUseLegacyHost := false
@@ -66,21 +66,10 @@ ThisBuild / tlSonatypeUseLegacyHost := false
 ThisBuild / tlSitePublishBranch := Some("main")
 ThisBuild / homepage := Some(new URL("https://storch.dev/api/"))
 ThisBuild / scmInfo := Some( ScmInfo( url( "https://github.com/mullerhai/storch-safe-tensor" ), "scm:git:https://github.com/mullerhai/storch-safe-tensor.git" ) )
-// https://mvnrepository.com/artifact/org.projectlombok/lombok
-libraryDependencies += "org.projectlombok" % "lombok" % "1.18.38"
-// https://mvnrepository.com/artifact/ai.djl.huggingface/tokenizers
-libraryDependencies += "ai.djl.huggingface" % "tokenizers" % "0.33.0"
-// https://mvnrepository.com/artifact/org.apache.camel/camel-djl
-libraryDependencies += "org.apache.camel" % "camel-djl" % "4.11.0"
-// https://mvnrepository.com/artifact/ai.djl/api
+//libraryDependencies += "ai.djl.huggingface" % "tokenizers" % "0.33.0"
 libraryDependencies += "ai.djl" % "api" % "0.33.0"
-// https://mvnrepository.com/artifact/com.alibaba.fastjson2/fastjson2
 libraryDependencies += "com.alibaba.fastjson2" % "fastjson2" % "2.0.57"
-
-// https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
 libraryDependencies += "com.fasterxml.jackson.core" % "jackson-databind" % "2.19.0"
-
-// https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
 libraryDependencies += "com.fasterxml.jackson.core" % "jackson-core" % "2.19.0"
 
 
@@ -103,3 +92,9 @@ ThisBuild  / assemblyMergeStrategy := {
     val oldStrategy = (assembly / assemblyMergeStrategy).value
     oldStrategy(x)
 }
+
+
+
+// https://mvnrepository.com/artifact/org.apache.camel/camel-djl
+//libraryDependencies += "org.apache.camel" % "camel-djl" % "4.11.0"
+// https://mvnrepository.com/artifact/ai.djl/api

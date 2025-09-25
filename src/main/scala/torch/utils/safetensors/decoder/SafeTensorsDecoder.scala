@@ -1,23 +1,18 @@
-package torch.safetensors.decoder
+package torch.utils.safetensors.decoder
 
 import java.io.{File, FileInputStream, IOException}
 import java.nio.file.Paths
-import java.util.*
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 import scala.jdk.CollectionConverters.*
 import com.alibaba.fastjson2.JSON
-import com.alibaba.fastjson2.JSONObject
-import lombok.NonNull
-import lombok.RequiredArgsConstructor
-import torch.safetensors.instance.SafeTensors
-
+import torch.utils.safetensors.instance.SafeTensors
 import scala.util.control.Breaks.{break, breakable}
 
 /** SafeTensors格式文件解析器
   */
 
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 class SafeTensorsDecoder(filename: String) {
 //  this.filename = filename
 //  @NonNull final private val filename: String = null
@@ -84,3 +79,21 @@ class SafeTensorsDecoder(filename: String) {
       finally if (fis != null) fis.close()
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//import com.alibaba.fastjson2.JSONObject
+//import lombok.NonNull
+//import lombok.RequiredArgsConstructor

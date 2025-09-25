@@ -1,18 +1,14 @@
-package torch.safetensors.decoder
+package torch.utils.safetensors.decoder
 
 import java.io.{File, FileInputStream, IOException, InputStream}
-import java.nio.Buffer
 import java.nio.ByteBuffer
-import scala.jdk.CollectionConverters.*
 import ai.djl.Model
-import ai.djl.ndarray.NDArray
 import ai.djl.ndarray.NDManager
 import ai.djl.ndarray.types.DataType
 import ai.djl.ndarray.types.Shape
 import ai.djl.nn.Parameter
-import ai.djl.nn.ParameterList
-import lombok.Cleanup
-import torch.safetensors.instance.SafeTensors
+import torch.utils.safetensors.instance.SafeTensors
+
 
 class DJLSafeTensorsLoader extends ISafeTensorsLoader[Model] {
   override def load(tensorsDef: SafeTensors, model: Model): Unit = {
@@ -28,7 +24,7 @@ class DJLSafeTensorsLoader extends ISafeTensorsLoader[Model] {
         fis.read(headerBuffer, 0, headerSize) // skip header
 //        fis.readNBytes((8 + tensorsDef.sizeOfHeader).toInt) // skip header
         val header = tensorsDef.header
-        @Cleanup
+//        @Cleanup
         val nm = NDManager.newBaseManager
 
         for (element <- header) {
@@ -51,3 +47,26 @@ class DJLSafeTensorsLoader extends ISafeTensorsLoader[Model] {
     }
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//import ai.djl.ndarray.NDArray
+//import ai.djl.nn.ParameterList
+//import lombok.Cleanup

@@ -1,22 +1,9 @@
-package torch.safetensors
+package torch.utils.safetensors.encoder
 
-import java.io.BufferedOutputStream
-import java.io.DataOutputStream
-import java.io.File
-import java.io.FileNotFoundException
-import java.io.FileOutputStream
-import java.io.IOException
-import java.nio.ByteBuffer
-import java.nio.ByteOrder
-import java.nio.FloatBuffer
-import java.nio.LongBuffer
+import java.io.*
 import java.nio.charset.StandardCharsets
-
+import java.nio.{ByteBuffer, ByteOrder, FloatBuffer, LongBuffer}
 import scala.collection.mutable
-import scala.collection.mutable.ListBuffer
-import scala.jdk.CollectionConverters.*
-import scala.util.control.Breaks.break
-import scala.util.control.Breaks.breakable
 
 object SafetensorsBuilder {
   class HeaderValue(
@@ -60,7 +47,7 @@ class SafetensorsBuilder {
 
   def add(tensorName: String, shape: Seq[Int], longs: Array[Long]): Unit = {
     SafetensorsBuilder.checkLength(shape, longs.length)
-//    var dataOffsets: mutable.Map[Int, Int] = null
+
     val begin = byteSize
     byteSize += java.lang.Long.BYTES * longs.length
     val end = byteSize
@@ -73,7 +60,7 @@ class SafetensorsBuilder {
 
   def add(tensorName: String, shape: Seq[Int], longBuffer: LongBuffer): Unit = {
     SafetensorsBuilder.checkLength(shape, longBuffer.limit)
-//    var dataOffsets: mutable.Map[Int, Int] = null
+
     val begin = byteSize
     byteSize += java.lang.Long.BYTES * (longBuffer.limit - longBuffer.position)
     val end = byteSize
@@ -86,7 +73,7 @@ class SafetensorsBuilder {
 
   def add(tensorName: String, shape: Seq[Int], floats: Array[Float]): Unit = {
     SafetensorsBuilder.checkLength(shape, floats.length)
-//    var dataOffsets: mutable.Map[Int, Int] = null
+
     val begin = byteSize
     byteSize += java.lang.Float.BYTES * floats.length
     val end = byteSize
@@ -99,7 +86,7 @@ class SafetensorsBuilder {
 
   def add(tensorName: String, shape: Seq[Int], floatBuffer: FloatBuffer): Unit = {
     SafetensorsBuilder.checkLength(shape, floatBuffer.limit)
-//    var dataOffsets: mutable.Map[Int, Int] = null
+
     val begin = byteSize
     byteSize +=
       java.lang.Float.BYTES * (floatBuffer.limit - floatBuffer.position)
@@ -145,33 +132,26 @@ class SafetensorsBuilder {
       val end = dataOffsets._2
       bb = ByteBuffer.wrap(byteBuffer.array, begin, end - begin)
         .order(ByteOrder.LITTLE_ENDIAN)
-      val instance = bodies.get(entry._1)
-      breakable(if (instance.isInstanceOf[Array[Long]]) {
-        bb.asLongBuffer.put(instance.asInstanceOf[Array[Long]])
-        break()
-//          continue //todo: continue is not supported
-      })
-      breakable(if (instance.isInstanceOf[LongBuffer]) {
-        bb.asLongBuffer.put(instance.asInstanceOf[LongBuffer])
-        break()
-        //        continue //todo: continue is not supported
-      })
-
-      breakable(if (instance.isInstanceOf[Array[Float]]) {
-        bb.asFloatBuffer.put(instance.asInstanceOf[Array[Float]])
-        break()
-        //        continue //todo: continue is not supported
-      })
-
-      breakable(if (instance.isInstanceOf[FloatBuffer]) {
-        bb.asFloatBuffer.put(instance.asInstanceOf[FloatBuffer])
-        break()
-        //        continue //todo: continue is not supported
-      })
-
-      throw new IllegalArgumentException(
-        "Unsupported type: " + instance.getClass.getTypeName,
-      )
+      val instance = bodies.getOrElse(entry._1,"") //.asInstanceOf[Array[Long]]
+      println(instance.getClass.getTypeName)
+      instance match {
+        case arr: Array[Long] =>
+          println("instance is match Array[Long]")
+          bb.asLongBuffer.put(arr)
+        case buf: LongBuffer =>
+          println("instance is match LongBuffer")
+          bb.asLongBuffer.put(buf)
+        case arr: Array[Float] =>
+          println("instance is match Array[Float]")
+          bb.asFloatBuffer.put(arr)
+        case buf: FloatBuffer =>
+          println("instance is match FloatBuffer")
+          bb.asFloatBuffer.put(buf)
+        case _ =>
+          throw new IllegalArgumentException(
+            "Unsupported type: " + instance.getClass.getTypeName
+          )
+      }
     }
     byteBuffer
   }
